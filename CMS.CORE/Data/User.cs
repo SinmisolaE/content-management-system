@@ -1,9 +1,11 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace CMS.CORE.Data;
 
 public class User
 {
+    [Key]
     public Guid Id {get; private set;}
     public string FirstName {get; private set;}
     public string LastName {get; private set;}
@@ -15,9 +17,8 @@ public class User
     public Guid RoleId;
     public UserRole Role;
 
-    public User(Guid id, string firstName, string lastName, string email, string hashedPassword, string photo, Guid roleId)
+    public User(string firstName, string lastName, string email, string hashedPassword, string photo, Guid roleId)
     {
-        Id = id;
         FirstName = firstName;
         LastName = lastName;
         Email = email;
