@@ -1,5 +1,6 @@
 using System;
 using CMS.CORE.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace CMS.INFRASTRUCTURE.Model;
 
