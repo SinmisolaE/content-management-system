@@ -1,7 +1,7 @@
 using System;
-using CMS.CORE.Data;
+using CMS.Core.Data;
 
-namespace CMS.CORE.Interfaces.Infrastructure;
+namespace CMS.Core.Interfaces.Infrastructure;
 
 public interface ITokenProvider
 {

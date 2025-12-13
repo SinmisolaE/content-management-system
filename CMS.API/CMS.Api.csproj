@@ -1,9 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>00e344b5-1bfa-4fe3-a07a-ff3274f8a3ff</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,8 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../CMS.CORE/CMS.CORE.csproj" />
-    <ProjectReference Include="../CMS.INFRASTRUCTURE/CMS.INFRASTRUCTURE.csproj" />
+    <ProjectReference Include="../CMS.Core/CMS.Core.csproj" />
+    <ProjectReference Include="../CMS.Infrastructure/CMS.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

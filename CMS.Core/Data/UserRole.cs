@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace CMS.CORE.Data;
+namespace CMS.Core.Data;
 
 public class UserRole
 {

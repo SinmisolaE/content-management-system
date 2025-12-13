@@ -1,6 +1,6 @@
 using System;
 
-namespace CMS.CORE.Interfaces.Infrastructure;
+namespace CMS.Core.Interfaces.Infrastructure;
 
 // Abstraction for password hash methid
 public interface IPasswordHasher
