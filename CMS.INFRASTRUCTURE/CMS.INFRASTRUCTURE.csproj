@@ -10,4 +10,8 @@
     <ProjectReference Include="../CMS.CORE/CMS.CORE.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Model/" />
+  </ItemGroup>
+
 </Project>
