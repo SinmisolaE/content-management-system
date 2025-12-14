@@ -9,5 +9,5 @@ public class RefreshToken
     public string Token {get; private set;}
     public DateTime Expires {get; private set;}
 
-    public User user {get; private set;}
+    public User User {get; private set;}
 }

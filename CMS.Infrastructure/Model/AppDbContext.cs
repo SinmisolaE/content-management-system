@@ -12,6 +12,7 @@ public class AppDbContext : DbContext
     }
     public DbSet<User> Users {get; set;}
     public DbSet<UserRole> Roles {get; set;}
+    public DbSet<RefreshToken> RefreshTokens {get; set;}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -30,6 +31,15 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<UserRole>(entity =>
         {
             entity.HasKey(x => x.Id);
+        });
+
+        //Refresh tokens table
+        modelBuilder.Entity<RefreshToken>(entity =>
+        {
+            entity.HasKey(u => u.Id);
+            entity.HasIndex(u => u.Token).IsUnique();
+            entity.HasOne(u => u.User).WithMany().HasForeignKey(u => u.UserId);
+            
         });
     }
 
