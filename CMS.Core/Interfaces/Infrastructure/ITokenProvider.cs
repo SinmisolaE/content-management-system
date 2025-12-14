@@ -6,4 +6,5 @@ namespace CMS.Core.Interfaces.Infrastructure;
 public interface ITokenProvider
 {
     string GenerateJwt(User user);
+    string GenerateRefreshToken();
 }

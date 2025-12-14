@@ -59,4 +59,9 @@ public class TokenProvider : ITokenProvider
 
         return jwt;
     }
+
+    public string GenerateRefreshToken()
+    {
+        return Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
+    }
 }
