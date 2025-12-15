@@ -7,5 +7,7 @@ public interface IRefreshTokenRepository
 {
     Task<bool> AddRefreshTokenAsync(RefreshToken refreshToken);
 
-    
+    Task DeleteRefreshTokenAsync(Guid userId);
+
+    Task<RefreshToken> GetRefreshTokenAsync(string refreshToken);
 }

@@ -22,10 +22,11 @@ public class AuthService : IAuthService
     private readonly IUserRepository _userRepository;
     private readonly IRoleRepository _roleRepository;
     private readonly IRefreshTokenRepository _refreshToken;
+    private readonly IUnitOfWork _unitOfWork;
     
 
     public AuthService(ITokenProvider tokenProvider, IPasswordHasher passwordHasher, IUserRepository userRepository,
-        IRoleRepository roleRepository, IRefreshTokenRepository refreshToken
+        IRoleRepository roleRepository, IRefreshTokenRepository refreshToken, IUnitOfWork unitOfWork
     )
     {
         _tokenProvider = tokenProvider;
@@ -33,6 +34,7 @@ public class AuthService : IAuthService
         _userRepository = userRepository;
         _roleRepository = roleRepository;
         _refreshToken = refreshToken;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<AuthResult> LoginAsync(LoginCommand loginCommand)
@@ -61,16 +63,28 @@ public class AuthService : IAuthService
         );
 
         var resp = await _refreshToken.AddRefreshTokenAsync(refreshToken);
-
         if (!resp) throw new Exception("Error in signing in!");
+
+        await _unitOfWork.SaveEntitiesAsync();
+
 
         return new AuthResult(accessToken, refreshToken.Token);
 
     }
 
-    public Task<bool> Logout(string refreshToken)
+    /*
+        Deletes all refresh tokens for user in db
+    */
+    public async Task<bool> Logout(Guid userId)
     {
-        throw new NotImplementedException();
+        try
+        {
+            
+            await _refreshToken.DeleteRefreshTokenAsync(userId);
+            return true;
+        } catch (Exception) {
+            return false;
+        }
     }
 
     public async Task<AuthResult> SignUpAsync(SignUpCommand signUpCommand)
@@ -99,7 +113,6 @@ public class AuthService : IAuthService
         );
 
         var newUser = await _userRepository.AddUserAsync(user1);
-        await _userRepository.SaveChangesAsync();
 
         string accessToken = _tokenProvider.GenerateJwt(newUser);
 
@@ -112,10 +125,39 @@ public class AuthService : IAuthService
         );
 
         var resp = await _refreshToken.AddRefreshTokenAsync(refreshToken);
-
         if (!resp) throw new Exception("Error in signing in!");
+
+        await _unitOfWork.SaveEntitiesAsync();
 
         return new AuthResult(accessToken, refreshToken.Token);
 
+    }
+
+    /*
+        Upon access token expires
+        Refresh token regenerates access tokens for auth
+    */
+    public async Task<AuthResult> RefreshTokenLogIn(string refreshToken)
+    {
+        if (refreshToken == null || string.IsNullOrEmpty(refreshToken))
+        {
+            throw new Exception("Error authenticating!");
+        }
+
+        var findRefreshToken = await _refreshToken.GetRefreshTokenAsync(refreshToken);
+        if (findRefreshToken == null || findRefreshToken.Expires < DateTime.UtcNow){
+             throw new Exception("Refresh token has expired");
+        }
+
+        string accessToken = _tokenProvider.GenerateJwt(findRefreshToken.User);
+
+        // Rotate refresh token
+        findRefreshToken.Token = _tokenProvider.GenerateRefreshToken();
+        findRefreshToken.Expires = DateTime.UtcNow.AddDays(7);
+
+        await _unitOfWork.SaveEntitiesAsync();
+        
+
+        return new AuthResult(accessToken, findRefreshToken.Token);
     }
 }
