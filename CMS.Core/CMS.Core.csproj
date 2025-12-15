@@ -8,8 +8,12 @@
 
   <ItemGroup>
     <Folder Include="Data/" />
+    <Folder Include="DTOs/" />
     <Folder Include="Interfaces/" />
     <Folder Include="Interfaces/Infrastructure/" />
+    <Folder Include="Interfaces/Services/" />
+    <Folder Include="Service/" />
+    <Folder Include="Service/auth/" />
   </ItemGroup>
 
 </Project>
