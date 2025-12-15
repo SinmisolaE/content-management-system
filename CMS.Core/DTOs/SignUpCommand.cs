@@ -26,7 +26,7 @@ public class SignUpCommand
         FirstName = firstName;
         LastName = lastName;
         Email = email;
-        this.password = password;
+        Password = password;
         Role = role;
         PhotoBase64 = photoBase64;
     }
@@ -34,7 +34,7 @@ public class SignUpCommand
     public string FirstName {get;}
     public string LastName {get;}
     public string Email {get;}
-    public string password {get;}
+    public string Password {get;}
     public string Role {get;}
     public string PhotoBase64 {get;}
 
